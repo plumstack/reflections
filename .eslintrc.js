@@ -19,6 +19,7 @@ module.exports = {
           'request', // for Express requests
           'res', // for Express responses
           'response', // for Express responses
+          's', // for vuex
           'state', // for vuex
         ],
       },

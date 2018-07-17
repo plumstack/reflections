@@ -2,11 +2,28 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link v-if='!getLoggedIn' to="/login">Login</router-link>
+      <a v-else @click='logout'>Logout</a>
     </div>
     <router-view/>
+    <!-- <MeetingPage /> -->
   </div>
 </template>
+
+
+<script>
+import { mapGetters, mapActions } from 'vuex';
+import MeetingPage from '@/components/MeetingPage.vue'
+
+export default {
+  name: 'App',
+  computed: mapGetters(['getLoggedIn']),
+  methods: mapActions(['logout']),
+  components: {
+    MeetingPage,
+  },
+}
+</script>
 
 <style>
 #app {
