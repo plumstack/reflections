@@ -1,10 +1,8 @@
 <template>
 <div>
-<li class="menu-item main-menu-item host-button" @click="login">
 <form id="loginForm" action="http://localhost:8085/api/auth/google" method="GET">
-    Host a Room
+   <button class='pure-button'>Login</button>
 </form>
-</li>
 </div>
 </template>
 

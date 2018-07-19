@@ -18,9 +18,12 @@ import MeetingPage from '@/components/MeetingPage.vue'
 export default {
   name: 'App',
   computed: mapGetters(['getLoggedIn']),
-  methods: mapActions(['logout']),
+  methods: mapActions(['logout', 'checkAuth']),
   components: {
     MeetingPage,
+  },
+  created(){
+    this.checkAuth();
   },
 }
 </script>

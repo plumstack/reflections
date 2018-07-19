@@ -63,6 +63,7 @@ module.exports = (app) => {
       throw new Error(error);
     }
 
-    res.redirect('http://localhost:8080/#/home');
+    res.redirect('http://localhost:8080/#/');
   });
+  app.post('/api/auth/logout', (req) => req.session.destroy());
 };
