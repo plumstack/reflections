@@ -1,21 +1,20 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
-const DB = require('./database/index');
-const slack = require('./slack');
+require('./database/index');
+require('./slack');
 
 dotenv.config({ silent: true });
 
 const app = express();
 const PORT = process.env.PORT || 8085;
 
-require('./authentication')(app);
-
 app.use((req, _, next) => {
-  console.info(`${req.method}:${req.url}`);
+  console.log(`${req.method}:${req.url}`);
   next();
 });
 
+require('./authentication')(app);
 
 app.listen(PORT, () => {
   console.info(`Server started on port ${PORT}`);

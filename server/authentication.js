@@ -5,13 +5,13 @@ const dotenv = require('dotenv'); //eslint-disable-line
 
 const DB = require('./database/index');
 
-
 module.exports = (app) => {
   const {
     GOOGLE_CLIENT_ID: clientID,
     GOOGLE_CLIENT_SECRET: clientSecret,
     GOOGLE_CALLBACK_URL: callbackURL,
     SECRET: secret,
+    BASE_URL,
   } = process.env;
   app.use(session({ secret, resave: false, saveUninitialized: false }));
   app.use(passport.initialize());
@@ -29,17 +29,17 @@ module.exports = (app) => {
     async (accessToken, refreshToken, profile, cb) => {
       try {
         const { id } = profile;
-        const RETRIEVED_USER = await DB.User.userVerify({
+        const retrievedUser = await DB.User.userVerify({
           id, accessToken, refreshToken,
         });
-        cb(null, RETRIEVED_USER);
+        cb(null, retrievedUser);
       } catch (error) {
         cb(error, null);
       }
     },
   ));
 
-  app.get('/api/auth/checkAuth', async (req, res) => {
+  app.get(`${BASE_URL}api/auth/checkAuth`, async (req, res) => {
     const { sessionID } = req;
 
     try {
@@ -50,8 +50,8 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile'] }));
-  app.get('/api/auth/google/callback', passport.authenticate('google', {
+  app.get(`${BASE_URL}api/auth/google`, passport.authenticate('google', { scope: ['profile'] }));
+  app.get(`${BASE_URL}api/auth/google/callback`, passport.authenticate('google', {
     failureRedirect: 'http://localhost:8080/#/failedLogin',
   }), async (req, res) => {
     const { sessionID } = req;
@@ -65,5 +65,5 @@ module.exports = (app) => {
 
     res.redirect('http://localhost:8080/#/');
   });
-  app.post('/api/auth/logout', (req) => req.session.destroy());
+  app.post(`${BASE_URL}api/auth/logout`, (req) => req.session.destroy());
 };
