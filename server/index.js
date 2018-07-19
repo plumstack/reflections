@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
-const db = require('./database/index');
+const DB = require('./database/index');
 
 dotenv.config({ silent: true });
 

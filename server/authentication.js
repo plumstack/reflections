@@ -3,7 +3,7 @@ const session = require('express-session');
 const GoogleStrategy = require('passport-google-oauth20').Strategy; // eslint-disable-line
 const dotenv = require('dotenv'); //eslint-disable-line
 
-const Database = require('./database/index');
+const DB = require('./database/index');
 
 
 module.exports = (app) => {
@@ -29,7 +29,7 @@ module.exports = (app) => {
     async (accessToken, refreshToken, profile, cb) => {
       try {
         const { id } = profile;
-        const RETRIEVED_USER = await Database.userVerify({
+        const RETRIEVED_USER = await DB.User.userVerify({
           id, accessToken, refreshToken,
         });
         cb(null, RETRIEVED_USER);
@@ -43,7 +43,7 @@ module.exports = (app) => {
     const { sessionID } = req;
 
     try {
-      const sessionCheckResult = await Database.verifySession(sessionID);
+      const sessionCheckResult = await DB.User.verifySession(sessionID);
       return res.send({ loggedIn: sessionCheckResult });
     } catch (error) {
       throw new Error(error);
@@ -58,7 +58,7 @@ module.exports = (app) => {
     const { user } = req.session.passport;
 
     try {
-      await Database.addSessionID({ user, sessionID });
+      await DB.User.addSessionID({ user, sessionID });
     } catch (error) {
       throw new Error(error);
     }

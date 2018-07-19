@@ -1,6 +1,7 @@
-const Database = require('./index');
-
-class User extends Database {
+class User {
+  constructor(client) {
+    this.client = client;
+  }
   async userVerify({ id, accessToken, refreshToken }) {
     const updateTokensSQL = 'UPDATE rs.authedusers SET (accessToken, refreshToken) = ($1, $2) WHERE id = ($3);';
     const verifyUserSQL = 'SELECT * FROM rs.authedUsers WHERE id = ($1);';
@@ -38,4 +39,4 @@ class User extends Database {
   }
 }
 
-module.exports = new User();
+module.exports = User;
