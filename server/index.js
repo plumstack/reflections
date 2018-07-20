@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 require('./database/index');
-require('./slack');
+require('./api/slack');
 
 dotenv.config({ silent: true });
 

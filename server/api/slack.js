@@ -1,6 +1,6 @@
 const { WebClient, RTMClient } = require('@slack/client');
 const dotenv = require('dotenv');
-const db = require('./database/index');
+const DB = require('../database/index');
 
 dotenv.config({ silent: true });
 
@@ -63,9 +63,13 @@ class Slack {
     }, {});
 
     this.channelList = newChannelList.channels.reduce((acc, item) => {
-      acc[item.id] = { name: item.name, members: item.members };
+      if (item.name.slice(0, 5) === 'hratx') {
+        acc[item.id] = { name: item.name, members: item.members };
+      }
       return acc;
     }, {});
+
+    DB.Slack.updateInfo({ channelList: this.channelList, userList: this.userList });
   }
 
   eventListener() {
