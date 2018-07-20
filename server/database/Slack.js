@@ -16,7 +16,8 @@ class SlackDB {
   async updateUserInfo({ userList }) {
     const users = Object.keys(userList);
     try {
-      Promise.all(users.map((item) => this.insertNewEmployee({ slackId: item, employeeName: userList[item] })));
+      Promise.all(users
+        .map((item) => this.insertNewEmployee({ slackId: item, employeeName: userList[item] })));
     } catch (error) {
       throw new Error(error);
     }
@@ -27,6 +28,16 @@ class SlackDB {
     try {
       const newEmployeeInsert = this.client.query(newEmployeeSQL, [employeeName, slackId]);
       return newEmployeeInsert;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getUnassignedEmployees() {
+    const unassignedEmployeesSQL = 'SELECT * FROM rs.employees WHERE cohort_id = 0;';
+    try {
+      const unassignedEmployees = await this.client.query(unassignedEmployeesSQL);
+      return unassignedEmployees.rows;
     } catch (error) {
       throw new Error(error);
     }

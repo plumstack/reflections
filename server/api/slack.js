@@ -58,16 +58,17 @@ class Slack {
     const newChannelList = await this.web.channels.list();
 
     this.userList = newUserList.members.reduce((acc, item) => {
-      if (!item.is_bot && item.name !== 'slackbot') acc[item.id] = item.name;
+      if (!item.is_bot && item.name !== 'slackbot') acc[item.id] = item.profile.real_name;
       return acc;
     }, {});
 
     this.channelList = newChannelList.channels.reduce((acc, item) => {
       if (item.name.slice(0, 5) === 'hratx') {
-        acc[item.id] = { name: item.name, members: item.members };
+        acc[item.id] = { name: item.name, members: item.members, archived: item.is_archived };
       }
       return acc;
     }, {});
+    console.log(this.channelList);
 
     DB.Slack.updateUserInfo({ userList: this.userList });
   }

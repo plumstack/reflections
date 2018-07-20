@@ -12,7 +12,7 @@
         <button class='pure-button'>HRATX36</button>
     </div>
     <div>
-        <h2>Archived</h2>
+        <h2>Graduated</h2>
         <div class='pure-button-group' role='group'>
             <button class='pure-button'>HRATX33</button>
             <button class='pure-button'>HRATX32</button>
