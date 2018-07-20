@@ -69,7 +69,7 @@ class Slack {
       return acc;
     }, {});
 
-    DB.Slack.updateInfo({ channelList: this.channelList, userList: this.userList });
+    DB.Slack.updateUserInfo({ userList: this.userList });
   }
 
   eventListener() {
