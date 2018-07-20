@@ -1,14 +1,14 @@
 CREATE TABLE rs.employees (
-  id serial PRIMARY KEY,
   employee_name varchar(50) NOT NULL,
-  slack_id varchar(50) NOT NULL,
+  slack_id varchar(50) NOT NULL PRIMARY KEY,
   cohort_id integer,
-  FOREIGN KEY (cohort_id) REFERENCES cohorts(id)
+  UNIQUE (slack_id),
+  FOREIGN KEY (cohort_id) REFERENCES rs.cohorts(id)
 );
 
 CREATE TABLE rs.cohorts (
   id integer PRIMARY KEY,
-  status text
+  cohort_status text
 );
 
 CREATE TABLE rs.meetings (
@@ -16,9 +16,11 @@ CREATE TABLE rs.meetings (
   meeting_notes TEXT,
   meeting_date INTEGER,
   reflection_id INTEGER,
-  employee_id INTEGER,
-  FOREIGN KEY (reflection_id) REFERENCES reflections(id),
-  FOREIGN KEY (employee_id) REFERENCES employees(id)
+  employee_id varchar(50),
+  respond_by_date INTEGER,
+  meeting_status TEXT,
+  FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
+  FOREIGN KEY (employee_id) REFERENCES rs.employees(slack_id)
 );
 
 CREATE TABLE rs.reflections (
@@ -31,7 +33,7 @@ CREATE TABLE rs.response (
   response_text TEXT,
   response_date INTEGER,
   meeting_id INTEGER,
-  FOREIGN KEY (meeting_id) REFERENCES meetings(id)
+  FOREIGN KEY (meeting_id) REFERENCES rs.meetings(id)
 );
 
 CREATE TABLE rs.tags (
@@ -42,12 +44,10 @@ CREATE TABLE rs.tags (
 CREATE TABLE rs.reflections_tags (
   tag_id INTEGER,
   reflection_id INTEGER,
-  FOREIGN KEY (tag_id) REFERENCES tags(id),
-  FOREIGN KEY (reflection_id) REFERENCES reflections(id),
+  FOREIGN KEY (tag_id) REFERENCES rs.tags(id),
+  FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
   PRIMARY KEY(tag_id, reflection_id)
 );
-
-DROP TABLE rs.authedusers;
 
 CREATE TABLE rs.authedUsers(
 	id TEXT primary key,
