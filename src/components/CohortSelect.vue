@@ -8,8 +8,12 @@
         </div>
     </div>
     <div>
-        <h2>Incoming</h2>
-        <button class='pure-button'>HRATX36</button>
+      <h2>Incoming</h2>
+      <button class='pure-button'>HRATX36</button>
+    </div>
+    <div>
+      <h2>Staff</h2>
+      <button class='pure-button'>Staff</button>
     </div>
     <div>
         <h2>Graduated</h2>
@@ -24,8 +28,8 @@
 <script>
 
 export default {
-    name: 'CohortSelect',
-    methods: {},
+  name: 'CohortSelect',
+  methods: {},
 };
 
 </script>

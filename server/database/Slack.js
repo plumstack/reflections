@@ -42,6 +42,27 @@ class SlackDB {
       throw new Error(error);
     }
   }
+
+  async updateCohortInfo({ cohortList }) {
+    const cohorts = Object.values(cohortList);
+    try {
+      Promise.all(cohorts.map((item) => this.insertNewCohort(item)));
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async insertNewCohort({ name, archived }) {
+    const newCohortSQL = 'INSERT INTO rs.cohorts(id, cohort_status) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING;';
+    const cohortID = parseInt(name.replace('hratx', ''), 10);
+
+    try {
+      const newCohortInsert = this.client.query(newCohortSQL, [cohortID, archived ? 'graduated' : 'incoming']);
+      return newCohortInsert;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = SlackDB;

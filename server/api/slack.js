@@ -68,8 +68,8 @@ class Slack {
       }
       return acc;
     }, {});
-    console.log(this.channelList);
 
+    DB.Slack.updateCohortInfo({ cohortList: this.channelList });
     DB.Slack.updateUserInfo({ userList: this.userList });
   }
 
