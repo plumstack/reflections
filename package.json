@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "server": "nodemon server/index.js",
+    "test": "mocha",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -26,7 +27,9 @@
     "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
     "@vue/cli-service": "^3.0.0-rc.5",
     "@vue/eslint-config-airbnb": "^3.0.0-rc.5",
+    "chai": "^4.1.2",
     "eslint-config-prettier": "^2.9.0",
+    "mocha": "^5.2.0",
     "vue-template-compiler": "^2.5.16"
   },
   "browserslist": [
