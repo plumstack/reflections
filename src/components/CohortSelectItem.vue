@@ -6,7 +6,7 @@
 <script>
 
 export default {
-    name: 'CohortSelectItem',
+  name: 'CohortSelectItem',
 };
 
 </script>

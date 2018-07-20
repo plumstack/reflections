@@ -6,7 +6,8 @@
     <fieldset class='pure-group '>
         <textarea type='text' class='pure-input-3-4' placeholder='Notes'></textarea>
         <textarea type='text' class='pure-input-3-4' placeholder='Reflections'></textarea>
-        <input type='text' class='pure-input-3-4' placeholder='Respond by (ex: next thursday at noon)'>
+        <input type='text' class='pure-input-3-4'
+        placeholder='Respond by (ex: next thursday at noon)'>
     </fieldset>
 
     <button type='submit' class='pure-button pure-input-1-2 pure-button-primary'>Submit</button>
@@ -19,7 +20,7 @@
 <script>
 
 export default {
-    name: 'MeetingPage',
+  name: 'MeetingPage',
 };
 
 </script>
@@ -32,7 +33,7 @@ export default {
     transform: translate(-50%, -50%);
     width: 40%;
     height: 50%;
-    padding: 20px;  
+    padding: 20px;
     text-align: center;
 }
 

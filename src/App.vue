@@ -13,7 +13,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import MeetingPage from '@/components/MeetingPage.vue'
+import MeetingPage from '@/components/MeetingPage.vue';
 
 export default {
   name: 'App',
@@ -22,10 +22,10 @@ export default {
   components: {
     MeetingPage,
   },
-  created(){
+  created() {
     this.checkAuth();
   },
-}
+};
 </script>
 
 <style>

@@ -6,7 +6,7 @@
 <script>
 
 export default {
-    name: 'StudentSelectItem',
+  name: 'StudentSelectItem',
 };
 
 </script>
