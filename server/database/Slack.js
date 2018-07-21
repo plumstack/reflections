@@ -4,9 +4,9 @@ class SlackDB {
   }
 
   async getEmployees() {
-    const getEmployeesSQL = 'SELECT * FROM rs.employees;';
+    const SQL = 'SELECT * FROM rs.employees;';
     try {
-      const currentEmployees = await this.client.query(getEmployeesSQL);
+      const currentEmployees = await this.client.query(SQL);
       return currentEmployees;
     } catch (error) {
       throw new Error(error);
@@ -24,9 +24,9 @@ class SlackDB {
   }
 
   async insertNewEmployee({ slackId, employeeName }) {
-    const newEmployeeSQL = 'INSERT INTO rs.employees(employee_name, slack_id, cohort_id) VALUES ($1, $2, 0) ON CONFLICT (slack_id) DO NOTHING;';
+    const SQL = 'INSERT INTO rs.employees(employee_name, slack_id) VALUES ($1, $2) ON CONFLICT (slack_id) DO NOTHING;';
     try {
-      const newEmployeeInsert = this.client.query(newEmployeeSQL, [employeeName, slackId]);
+      const newEmployeeInsert = this.client.query(SQL, [employeeName, slackId]);
       return newEmployeeInsert;
     } catch (error) {
       throw new Error(error);
@@ -34,9 +34,9 @@ class SlackDB {
   }
 
   async getUnassignedEmployees() {
-    const unassignedEmployeesSQL = 'SELECT * FROM rs.employees WHERE cohort_id = 0;';
+    const SQL = 'SELECT * FROM rs.employees WHERE cohort_id = 0;';
     try {
-      const unassignedEmployees = await this.client.query(unassignedEmployeesSQL);
+      const unassignedEmployees = await this.client.query(SQL);
       return unassignedEmployees.rows;
     } catch (error) {
       throw new Error(error);
@@ -53,7 +53,7 @@ class SlackDB {
   }
 
   async insertNewCohort({ name, archived }) {
-    const newCohortSQL = 'INSERT INTO rs.cohorts(id, cohort_status) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING;';
+    const SQL = 'INSERT INTO rs.cohorts(id, cohort_status) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING;';
     // removes the hratx prefix and parses the cohort number only if the remains is a number
     const cohortID = Number(name.replace('hratx', ''));
 
@@ -63,7 +63,7 @@ class SlackDB {
 
     try {
       // inserts new cohorts with their numbers as the ID and a status of graduated or archived.
-      const newCohortInsert = this.client.query(newCohortSQL, [cohortID, archived ? 'graduated' : 'incoming']);
+      const newCohortInsert = this.client.query(SQL, [cohortID, archived ? 'graduated' : 'incoming']);
       return newCohortInsert;
     } catch (error) {
       throw new Error(error);

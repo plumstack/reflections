@@ -18,9 +18,9 @@ class User {
   }
 
   async addSessionID({ user, sessionID }) {
-    const updateSessionIDSQL = 'UPDATE rs.authedusers SET sessionID = ($1) WHERE id = ($2);';
+    const SQL = 'UPDATE rs.authedusers SET sessionID = ($1) WHERE id = ($2);';
     try {
-      const updatedSessionID = await this.client.query(updateSessionIDSQL, [sessionID, user]);
+      const updatedSessionID = await this.client.query(SQL, [sessionID, user]);
       if (!updatedSessionID.rowCount) throw new Error('failedSessionAdd');
     } catch (error) {
       throw new Error(error);
@@ -28,9 +28,9 @@ class User {
   }
 
   async verifySession(sessionID) {
-    const verifySessionSQL = 'SELECT * FROM rs.authedUsers WHERE sessionid = $1;';
+    const SQL = 'SELECT * FROM rs.authedUsers WHERE sessionid = $1;';
     try {
-      const userFromSessionID = await this.client.query(verifySessionSQL, [sessionID]);
+      const userFromSessionID = await this.client.query(SQL, [sessionID]);
       if (userFromSessionID.rowCount) return true;
       return false;
     } catch (error) {
