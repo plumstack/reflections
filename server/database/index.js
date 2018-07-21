@@ -2,6 +2,7 @@ const { Client } = require('pg');
 const dotenv = require('dotenv');
 const User = require('./User');
 const SlackDB = require('./Slack');
+const Cohort = require('./Cohort');
 
 dotenv.config({ silent: true });
 
@@ -14,6 +15,7 @@ class Database {
     });
     this.User = new User(this.client);
     this.Slack = new SlackDB(this.client);
+    this.Cohort = new Cohort(this.client);
     this.initConnection();
   }
 
