@@ -19,10 +19,10 @@ CREATE TABLE rs.reflections (
 CREATE TABLE rs.meetings (
   id serial PRIMARY KEY,
   meeting_notes TEXT,
-  meeting_date DATE,
+  meeting_date TIMESTAMP,
   reflection_id INTEGER,
   employee_id TEXT,
-  respond_by_date DATE,
+  respond_by_date TIMESTAMP,
   meeting_status TEXT DEFAULT 'needs response',
   FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
   FOREIGN KEY (employee_id) REFERENCES rs.employees(slack_id)
@@ -31,7 +31,7 @@ CREATE TABLE rs.meetings (
 CREATE TABLE rs.response (
   id serial PRIMARY KEY,
   response_text TEXT,
-  response_date DATE,
+  response_date TIMESTAMP,
   meeting_id INTEGER,
   FOREIGN KEY (meeting_id) REFERENCES rs.meetings(id)
 );
