@@ -1,4 +1,4 @@
-if [ "$1" == "build" ]; then
+if [ "$1" == "client" ]; then
 	echo "Rebuilding client files and restarting container..!"
     npm run build && docker stop reflections && docker rm reflections && docker build -t reflections . && docker run --name reflections -p 8586:8080 -d reflections 
 elif [ "$1" == "nocontainer" ]; then
