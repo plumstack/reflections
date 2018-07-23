@@ -1,3 +1,5 @@
+CREATE SCHEMA rs;
+
 CREATE TABLE rs.cohorts (
   id INTEGER PRIMARY KEY,
   cohort_status TEXT 
@@ -59,3 +61,5 @@ CREATE TABLE rs.authedUsers(
 	accessToken TEXT,
 	refreshToken TEXT
 );
+
+INSERT INTO rs.authedUsers (id, name) VALUES ('105689560482819886551', 'Jacob Johnston');

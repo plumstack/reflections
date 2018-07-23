@@ -39,12 +39,7 @@ class DateConversion {
 
 const DC = new DateConversion();
 
-const x = DC.nowToJavascript();
-const y = DC.nowToPostgres();
-console.log(y);
-console.log(x);
-
-module.exports = new DateConversion();
+module.exports = DC;
 
 // postgres date checker
 /* SELECT *

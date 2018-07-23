@@ -4,6 +4,7 @@ const User = require('./User');
 const SlackDB = require('./Slack');
 const Cohort = require('./Cohort');
 const Reflection = require('./Reflection');
+const Tag = require('./Tag');
 
 dotenv.config({ silent: true });
 
@@ -18,6 +19,7 @@ class Database {
     this.Slack = new SlackDB(this.client);
     this.Cohort = new Cohort(this.client);
     this.Reflection = new Reflection(this.client);
+    this.Tag = new Tag(this.client);
     this.initConnection();
   }
 
