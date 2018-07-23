@@ -14,6 +14,10 @@ app.use((req, _, next) => {
   next();
 });
 
+if (process.env.BUILD === 'PRODUCTION') {
+  app.use('/reflections', express.static(`${__dirname}/../dist`));
+}
+
 require('./authentication')(app);
 
 app.listen(PORT, () => {
