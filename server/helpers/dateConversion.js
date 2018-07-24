@@ -16,12 +16,17 @@ class DateConversion {
 
     return [
       parsed.getUTCFullYear(),
+      '-',
       zeroPad(parsed.getMonth() + 1),
+      '-',
       zeroPad(parsed.getDate()),
+      ' ',
       zeroPad(parsed.getHours()),
+      ':',
       zeroPad(parsed.getMinutes()),
+      ':',
       zeroPad(parsed.getSeconds()),
-    ].join(' ');
+    ].join('');
   }
 
   nowToPostgres() {

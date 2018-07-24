@@ -25,6 +25,16 @@ class Tag {
       }
     } else return tagID;
   }
+
+  async tagReflection({ tag, reflectionID }) {
+    const SQL = 'INSERT INTO rs.reflections_tags (tag_id, reflection_id) VALUES ($1, $2);';
+    const tagID = await this.insertTag(tag);
+    try {
+      await this.client.query(SQL, [tagID, reflectionID]);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = Tag;

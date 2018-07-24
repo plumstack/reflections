@@ -6,6 +6,8 @@ const Cohort = require('./Cohort');
 const Reflection = require('./Reflection');
 const Tag = require('./Tag');
 
+const dateHelper = require('../helpers/dateConversion');
+
 dotenv.config({ silent: true });
 
 const { PSQL_CONNECTION_STRING: connectionString } = process.env;
@@ -34,5 +36,6 @@ class Database {
 }
 
 const DB = new Database();
+
 
 module.exports = DB;
