@@ -46,9 +46,9 @@ const DB = new Database();
 // UBTN15WFM
 module.exports = DB;
 
-DB.Employee.getEmployees().then(console.log);
-
 const slack = require('../api/slack');
+
+// DB.Employee.getEmployeeMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
 
 DB.helpers.slack = slack;
 
