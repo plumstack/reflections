@@ -40,6 +40,9 @@ class Database {
 const DB = new Database();
 
 // DB.Response.insertResponse({ slackID: 'UBTN15WFM', responseText: 'response', responseDate: dateHelper.nowToPostgres() });
+//  DB.Reflection.newReflection({
+//  slackID: 'UBTSH2Z0D', reflectionText: 'get sleep more', meetingNotes: 'tell more sleep', meetingDate: dateHelper.nowToPostgres(), respondBy: dateHelper.nowToPostgres()
+// });
 
 // UBTN15WFM
 module.exports = DB;

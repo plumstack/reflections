@@ -1,3 +1,5 @@
+const dateHelper = require('./../helpers/dateConversion');
+
 class Response {
   constructor(client) {
     this.client = client;
@@ -14,7 +16,7 @@ class Response {
     }
   }
 
-  async insertResponse({ slackID, responseText, responseDate }) {
+  async insertResponse({ slackID, responseText, responseDate = dateHelper.nowToPostgres() }) {
     const SQL = 'INSERT INTO rs.response (response_text, response_date, meeting_id) VALUES ($1, $2, $3)';
     const meetingID = await this.getNewestMeeting({ slackID });
 
@@ -26,7 +28,6 @@ class Response {
       throw new Error(error);
     }
   }
-
 
   async updateMeetingStatus({ meetingID, meetingStatus }) {
     const SQL = 'UPDATE rs.meetings SET meeting_status = $1 WHERE id = $2;';

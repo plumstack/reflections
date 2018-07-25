@@ -17,7 +17,7 @@ class Reflection {
   }
 
   async newReflection({
-    employeeID, reflectionText, meetingDate, meetingNotes, respondBy,
+    slackID, reflectionText, meetingDate, meetingNotes, respondBy,
   }) {
     const reflectionsSQL = 'INSERT INTO rs.reflections(reflection_text) VALUES ($1) RETURNING id';
     const newMeetingSQL = `INSERT INTO 
@@ -31,7 +31,7 @@ class Reflection {
 
       await this.client.query(
         newMeetingSQL,
-        [meetingNotes, meetingDate, reflectionID, employeeID, respondBy],
+        [meetingNotes, meetingDate, reflectionID, slackID, respondBy],
       );
     } catch (error) {
       throw new Error(error);

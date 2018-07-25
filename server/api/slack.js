@@ -74,11 +74,14 @@ class Slack {
   }
 
   eventListener() {
+    // UNCOMMENT THIS LINE TO DEBUG ALL SLACK EVENTS
+    // this.rtm.on('slack_event', (event, info) => console.log(info));
     this.rtm.on('ready', () => console.log('Slack RTM connected.'));
     this.rtm.on('message', (event) => {
       if (event.channel[0] === 'D' && event.user !== this.botID) {
-        // TODO: DB FUNCTION
-        this.postMessage('Your reply to this reflection has been saved. Feel free to send another message //TODO', event.user);
+        const { user: slackID, text: responseText } = event;
+        DB.Response.insertResponse({ slackID, responseText });
+        this.postMessage('Your reply to this HI reflection has been saved. Feel free to send another message //TODO', event.user);
       }
     });
   }
