@@ -6,6 +6,7 @@ const Cohort = require('./Cohort');
 const Reflection = require('./Reflection');
 const Tag = require('./Tag');
 const Response = require('./Response');
+const Employee = require('./Employee');
 
 const dateHelper = require('../helpers/dateConversion');
 
@@ -25,6 +26,7 @@ class Database {
     this.helpers = {};
     this.Response = new Response(this.client);
     this.Reflection = new Reflection(this.client, this.helpers);
+    this.Employee = new Employee(this.client);
     this.initConnection();
   }
 
@@ -43,6 +45,8 @@ const DB = new Database();
 
 // UBTN15WFM
 module.exports = DB;
+
+DB.Employee.getEmployees().then(console.log);
 
 const slack = require('../api/slack');
 

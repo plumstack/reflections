@@ -30,19 +30,27 @@ class Reflection {
       const insertReflectionID = await this.client.query(reflectionsSQL, [reflectionText]);
       const reflectionID = insertReflectionID.rows[0].id;
 
-      await this.client.query(
-        newMeetingSQL,
-        [meetingNotes, meetingDate, reflectionID, slackID, respondBy],
-      );
+      await this
+        .client
+        .query(
+          newMeetingSQL,
+          [meetingNotes, meetingDate, reflectionID, slackID, respondBy],
+        );
 
-      this.helpers.slack.postMessage(this.constructor.formatNewReflection({ reflectionText, respondBy }), slackID);
+      this
+        .helpers
+        .slack
+        .postMessage(this
+          .constructor
+          .formatNewReflection({ reflectionText, respondBy }), slackID);
     } catch (error) {
       throw new Error(error);
     }
   }
 
   static formatNewReflection({ reflectionText, respondBy }) {
-    return `You've recieved a new reflection. Please respond to this reflection by ${respondBy}. \n\n ${reflectionText}`;
+    return `You've recieved a new reflection. 
+            Please respond to this reflection by ${respondBy}. \n\n ${reflectionText}`;
   }
 }
 
