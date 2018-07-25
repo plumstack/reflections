@@ -21,9 +21,10 @@ class Database {
     this.User = new User(this.client);
     this.Slack = new SlackDB(this.client);
     this.Cohort = new Cohort(this.client);
-    this.Reflection = new Reflection(this.client);
     this.Tag = new Tag(this.client);
+    this.helpers = {};
     this.Response = new Response(this.client);
+    this.Reflection = new Reflection(this.client, this.helpers);
     this.initConnection();
   }
 
@@ -38,11 +39,15 @@ class Database {
 }
 
 const DB = new Database();
-
 // DB.Response.insertResponse({ slackID: 'UBTN15WFM', responseText: 'response', responseDate: dateHelper.nowToPostgres() });
-//  DB.Reflection.newReflection({
-//  slackID: 'UBTSH2Z0D', reflectionText: 'get sleep more', meetingNotes: 'tell more sleep', meetingDate: dateHelper.nowToPostgres(), respondBy: dateHelper.nowToPostgres()
-// });
 
 // UBTN15WFM
 module.exports = DB;
+
+const slack = require('../api/slack');
+
+DB.helpers.slack = slack;
+
+// DB.Reflection.newReflection({
+//   slackID: 'UBTSH2Z0D', reflectionText: 'reflection message test', meetingNotes: 'please work', meetingDate: dateHelper.nowToPostgres(), respondBy: dateHelper.nowToPostgres(),
+// });

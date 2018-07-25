@@ -47,6 +47,7 @@ class Slack {
   async postMessage(text, user) {
     try {
       const newIM = await this.web.im.open({ user });
+
       this.rtm.sendMessage(text, newIM.channel.id);
     } catch (error) {
       throw new Error(`ERROR: SLACKBOT POST MESSAGE: ${error}`);
@@ -81,12 +82,11 @@ class Slack {
       if (event.channel[0] === 'D' && event.user !== this.botID) {
         const { user: slackID, text: responseText } = event;
         DB.Response.insertResponse({ slackID, responseText });
-        this.postMessage('Your reply to this HI reflection has been saved. Feel free to send another message //TODO', event.user);
+        this.postMessage('Your reply to this reflection has been saved. Feel free to send another message //TODO', event.user);
       }
     });
   }
 }
-
 const slack = new Slack(BOT_OAUTH, USER_OAUTH);
 
 module.exports = slack;

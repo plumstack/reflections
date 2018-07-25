@@ -1,6 +1,7 @@
 class Reflection {
-  constructor(client) {
+  constructor(client, helpers) {
     this.client = client;
+    this.helpers = helpers;
   }
 
   async getAllReflectionsForEmployee({ employeeID }) {
@@ -33,9 +34,15 @@ class Reflection {
         newMeetingSQL,
         [meetingNotes, meetingDate, reflectionID, slackID, respondBy],
       );
+
+      this.helpers.slack.postMessage(this.constructor.formatNewReflection({ reflectionText, respondBy }), slackID);
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  static formatNewReflection({ reflectionText, respondBy }) {
+    return `You've recieved a new reflection. Please respond to this reflection by ${respondBy}. \n\n ${reflectionText}`;
   }
 }
 
