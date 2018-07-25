@@ -20,8 +20,18 @@ class Response {
 
     try {
       await this.client.query(SQL, [responseText, responseDate, meetingID]);
-      await this.updateMeetingStatus(meetingID, 'responded');
+      await this.updateMeetingStatus({ meetingID, meetingStatus: 'responded' });
       return true;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+
+  async updateMeetingStatus({ meetingID, meetingStatus }) {
+    const SQL = 'UPDATE rs.meetings SET meeting_status = $1 WHERE id = $2;';
+    try {
+      await this.client.query(SQL, [meetingStatus, meetingID]);
     } catch (error) {
       throw new Error(error);
     }
