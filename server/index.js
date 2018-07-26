@@ -1,18 +1,19 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 
 // routes
 const dashCohortsRoute = require('./routes/dash/cohorts');
 const dashEmployeeRoute = require('./routes/dash/employee');
+const dashReflectionRoute = require('./routes/dash/reflection');
 
-const DB = require('./database/index');
 require('./api/slack');
 
 dotenv.config({ silent: true });
 
 const app = express();
 const PORT = process.env.PORT || 8085;
-
+app.use(bodyParser.json());
 app.use((req, _, next) => {
   console.log(`${req.method}:${req.url}`);
   next();
@@ -26,6 +27,7 @@ require('./authentication')(app);
 
 app.use('/api/dash/cohorts', dashCohortsRoute);
 app.use('/api/dash/employee', dashEmployeeRoute);
+app.use('/api/dash/reflection/', dashReflectionRoute);
 
 
 app.listen(PORT, () => {

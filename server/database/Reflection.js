@@ -1,3 +1,5 @@
+const dateHelper = require('../helpers/dateConversion');
+
 class Reflection {
   constructor(client, helpers) {
     this.client = client;
@@ -18,8 +20,9 @@ class Reflection {
   }
 
   async newReflection({
-    slackID, reflectionText, meetingDate, meetingNotes, respondBy,
+    slackID, reflectionText, meetingDate = dateHelper.nowToPostgres(), meetingNotes, respondBy,
   }) {
+    console.log(arguments);
     const reflectionsSQL = 'INSERT INTO rs.reflections(reflection_text) VALUES ($1) RETURNING id';
     const newMeetingSQL = `INSERT INTO 
                           rs.meetings(meeting_notes, meeting_date, 
