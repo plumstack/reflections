@@ -22,7 +22,6 @@ class Reflection {
   async newReflection({
     slackID, reflectionText, meetingDate = dateHelper.nowToPostgres(), meetingNotes, respondBy,
   }) {
-    console.log(arguments);
     const reflectionsSQL = 'INSERT INTO rs.reflections(reflection_text) VALUES ($1) RETURNING id';
     const newMeetingSQL = `INSERT INTO 
                           rs.meetings(meeting_notes, meeting_date, 
@@ -46,6 +45,7 @@ class Reflection {
         .postMessage(this
           .constructor
           .formatNewReflection({ reflectionText, respondBy }), slackID);
+      return reflectionID;
     } catch (error) {
       throw new Error(error);
     }

@@ -8,12 +8,14 @@ const router = express.Router();
 router.post('/:slackID', async (req, res) => {
   const { slackID } = req.params;
   const {
-    reflectionText, meetingNotes, respondBy,
+    reflectionText, meetingNotes, respondBy, tag,
   } = req.body;
 
-  await DB.Reflection.newReflection({
+  const reflectionID = await DB.Reflection.newReflection({
     slackID, reflectionText, meetingNotes, respondBy: dateHelper.toPostgres(respondBy),
   });
+
+  DB.Tag.tagReflection({ tag, reflectionID });
   res.send({ success: true });
 });
 
