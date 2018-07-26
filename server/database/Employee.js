@@ -33,8 +33,13 @@ class Employee {
   }
 
   async getEmployeeMeetings({ slackID }) {
-    const SQL = `SELECT * FROM rs.meetings AS m LEFT JOIN rs.reflections AS r 
-                ON (m.reflection_id = r.id) WHERE m.employee_id = $1;`;
+    const SQL = `SELECT m.meeting_notes, m.meeting_date, m.meeting_status, m.respond_by_date, r.reflection_text, re.response_text, re.response_date
+                FROM rs.meetings AS m 
+                LEFT JOIN rs.reflections AS r 
+                  ON (m.reflection_id = r.id)
+                LEFT JOIN rs.response AS re
+                  ON (re.meeting_id = m.id)
+                WHERE m.employee_id = $1;`;
     try {
       const res = await this.client.query(SQL, [slackID]);
       return res.rows;
