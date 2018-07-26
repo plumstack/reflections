@@ -33,7 +33,7 @@ class Employee {
   }
 
   async getEmployeeMeetings({ slackID }) {
-    const SQL = `SELECT m.meeting_notes, m.meeting_date, m.meeting_status, m.respond_by_date, r.reflection_text, re.response_text, re.response_date
+    const SQL = `SELECT m.id, m.meeting_notes, m.meeting_date, m.meeting_status, m.respond_by_date, r.reflection_text, re.response_text, re.response_date
                 FROM rs.meetings AS m 
                 LEFT JOIN rs.reflections AS r 
                   ON (m.reflection_id = r.id)
@@ -41,8 +41,27 @@ class Employee {
                   ON (re.meeting_id = m.id)
                 WHERE m.employee_id = $1;`;
     try {
-      const res = await this.client.query(SQL, [slackID]);
-      return res.rows;
+      const employeeMeetings = await this.client.query(SQL, [slackID]);
+      const formattedMeetings = employeeMeetings.rows.reduce((acc, item) => {
+        const {
+          id, response_text, response_date, meeting_notes, // eslint-disable-line
+          meeting_date, meeting_status, respond_by_date, // eslint-disable-line
+        } = item;
+        if (id in acc) acc[id].responses.push({ response_text, response_date });
+        else {
+          acc[id] = {
+            id,
+            meeting_notes,
+            meeting_date,
+            meeting_status,
+            respond_by_date,
+            responses: [{ response_text, response_date }],
+          };
+        }
+
+        return acc;
+      }, {});
+      return Object.values(formattedMeetings);
     } catch (error) {
       throw new Error(error);
     }
