@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 
 // routes
 const dashCohortsRoute = require('./routes/dash/cohorts');
+const dashEmployeeRoute = require('./routes/dash/employee');
 
 const DB = require('./database/index');
 require('./api/slack');
@@ -24,6 +25,7 @@ if (process.env.BUILD === 'PRODUCTION') {
 require('./authentication')(app);
 
 app.use('/api/dash/cohorts', dashCohortsRoute);
+app.use('/api/dash/employee', dashEmployeeRoute);
 
 
 app.listen(PORT, () => {
