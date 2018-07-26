@@ -50,8 +50,6 @@ const slack = require('../api/slack');
 
 // DB.Employee.getEmployeeMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
 
-// DB.Employee.getEmployeeMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
-
 DB.helpers.slack = slack;
 
 // DB.Reflection.newReflection({

@@ -14,11 +14,11 @@ class Cohort {
     }
   }
   // statuses are: incoming, current, graduated
-  async updateCohortStatus({ cohortID, newStatus }) {
+  async updateCohortStatus({ cohortID, cohortStatus }) {
     const SQL = 'UPDATE rs.cohorts SET cohort_status = $1 WHERE id = $2';
 
     try {
-      await this.client.query(SQL, [newStatus, cohortID]);
+      await this.client.query(SQL, [cohortStatus, cohortID]);
       return true;
     } catch (error) {
       console.error(error);
@@ -30,7 +30,7 @@ class Cohort {
     const SQL = 'SELECT * FROM rs.employees WHERE cohort_id = $1';
     try {
       const cohortMembers = await this.client.query(SQL, [cohortID]);
-      console.log(cohortMembers.rows);
+      return cohortMembers.rows;
     } catch (error) {
       throw new Error(error);
     }

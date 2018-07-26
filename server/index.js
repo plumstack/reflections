@@ -1,6 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
+// routes
+const dashCohortsRoute = require('./routes/dash/cohorts');
+
 const DB = require('./database/index');
 require('./api/slack');
 
@@ -20,11 +23,8 @@ if (process.env.BUILD === 'PRODUCTION') {
 
 require('./authentication')(app);
 
+app.use('/api/dash/cohorts', dashCohortsRoute);
 
-app.get('/api/dash/cohorts/', async (_, res) => {
-  const cohorts = await DB.Cohort.getCohorts();
-  res.send({ success: true, cohorts });
-});
 
 app.listen(PORT, () => {
   console.info(`Server started on port ${PORT}`);
