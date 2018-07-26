@@ -63,7 +63,7 @@ module.exports = (app) => {
       throw new Error(error);
     }
 
-    res.redirect('http://johnstonjacob.com/reflections/#/');
+    res.redirect('http://localhost:8080/reflections/#/');
   });
   app.post(`${BASE_URL}api/auth/logout`, (req, res) => {
     req.session.destroy();

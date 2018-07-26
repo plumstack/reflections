@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
-require('./database/index');
+const DB = require('./database/index');
 require('./api/slack');
 
 dotenv.config({ silent: true });
@@ -19,6 +19,12 @@ if (process.env.BUILD === 'PRODUCTION') {
 }
 
 require('./authentication')(app);
+
+
+app.get('/api/dash/cohorts/', async (_, res) => {
+  const cohorts = await DB.Cohort.getCohorts();
+  res.send({ success: true, cohorts });
+});
 
 app.listen(PORT, () => {
   console.info(`Server started on port ${PORT}`);
