@@ -4,35 +4,35 @@
         <h2>Current</h2>
         <div class="pure-button-group" role="group"
         v-for="cohort in current" :key="cohort.id">
-            <a class='pure-button'>HRATX{{cohort.id}}</a>
+            <CohortSelectItem :cohort='cohort' :status='cohort.cohort_status'/>
         </div>
     </div>
     <div>
       <h2>Incoming</h2>
         <div class="pure-button-group" role="group"
         v-for="cohort in incoming" :key="cohort.id">
-            <a class='pure-button'>HRATX{{cohort.id}}</a>
+            <CohortSelectItem :cohort='cohort' :status='cohort.cohort_status'/>
         </div>
     </div>
     <div>
       <h2>Staff</h2>
         <div class="pure-button-group" role="group"
         v-for="cohort in staff" :key="cohort.id">
-            <a class='pure-button'>Staff</a>
+            <CohortSelectItem :cohort='cohort' :status='cohort.cohort_status'/>
         </div>
     </div>
     <div>
         <h2>Unassigned</h2>
         <div class="pure-button-group" role="group"
         v-for="cohort in unassigned" :key="cohort.id">
-            <a class='pure-button'>Unassigned</a>
+            <CohortSelectItem :cohort='cohort' :status='cohort.cohort_status'/>
         </div>
     </div>
     <div>
         <h2>Graduated</h2>
         <div class="pure-button-group" role="group"
         v-for="cohort in graduated" :key="cohort.id">
-            <a class='pure-button'>HRATX{{cohort.id}}</a>
+            <CohortSelectItem :cohort='cohort' :status='cohort.cohort_status'/>
         </div>
     </div>
 </div>
@@ -40,6 +40,7 @@
 
 <script>
 import axios from 'axios';
+import CohortSelectItem from './CohortSelectItem.vue';
 
 export default {
   name: 'CohortSelect',
@@ -48,7 +49,11 @@ export default {
       cohorts: [],
     };
   },
+  components: {
+    CohortSelectItem,
+  },
   computed: {
+    // TODO redo filtering to be more efficient
     current() { return this.cohorts.filter((cohort) => cohort.cohort_status === 'current'); },
     graduated() { return this.cohorts.filter((cohort) => cohort.cohort_status === 'graduated'); },
     incoming() { return this.cohorts.filter((cohort) => cohort.cohort_status === 'incoming'); },
