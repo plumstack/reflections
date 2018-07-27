@@ -27,10 +27,12 @@ class Reflection {
                           rs.meetings(meeting_notes, meeting_date, 
                           reflection_id, employee_id, respond_by_date) 
                           VALUES ($1, $2, $3, $4, $5);`;
+    const setEmployeeStatusSQL = 'UPDATE rs.employees SET status = $1 WHERE slack_id = $2;';
 
     try {
       const insertReflectionID = await this.client.query(reflectionsSQL, [reflectionText]);
       const reflectionID = insertReflectionID.rows[0].id;
+      this.client.query(setEmployeeStatusSQL, ['needs response', slackID]);
 
       await this
         .client

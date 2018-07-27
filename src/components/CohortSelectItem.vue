@@ -1,8 +1,11 @@
 <template>
 <div>
-  <a v-if='status === "staff"' class='pure-button staff' @click='cohortClicked'>Staff</a>
-  <a v-else-if='status === "unassigned"' class='pure-button'>Unassigned</a>
-  <a v-else class='pure-button'>HRATX{{cohort.id}}</a>
+  <a v-if='status === "staff"' class='pure-button staff'
+  @click='cohortClicked'>Staff</a>
+  <a v-else-if='status === "unassigned"' class='pure-button'
+  @click='cohortClicked'>Unassigned</a>
+  <a v-else class='pure-button'
+  @click='cohortClicked'>HRATX{{cohort.id}}</a>
 </div>
 </template>
 

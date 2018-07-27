@@ -26,8 +26,8 @@ router.get('/', async (_, res) => {
 
 router.get('/:cohortID', async (req, res) => {
   const { cohortID } = req.params;
-  const cohortMemebers = await DB.Cohort.getCohortMembers({ cohortID });
-  res.send({ success: true, cohortMemebers });
+  const students = await DB.Cohort.getCohortMembers({ cohortID });
+  res.send({ success: true, students });
 });
 
 router.post('/:cohortID/:status', async (req, res) => {

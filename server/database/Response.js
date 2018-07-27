@@ -21,18 +21,19 @@ class Response {
     const meetingID = await this.getNewestMeeting({ slackID });
 
     try {
-      await this.client.query(SQL, [responseText, responseDate, meetingID]);
-      await this.updateMeetingStatus({ meetingID, meetingStatus: 'responded' });
-      return true;
+      this.client.query(SQL, [responseText, responseDate, meetingID]);
+      this.updateMeetingStatus({ slackID, meetingID, meetingStatus: 'responded' });
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async updateMeetingStatus({ meetingID, meetingStatus }) {
+  async updateMeetingStatus({ meetingID, meetingStatus, slackID }) {
     const SQL = 'UPDATE rs.meetings SET meeting_status = $1 WHERE id = $2;';
+    const SQL2 = 'UPDATE rs.employees SET status = $1 WHERE slack_id = $2;';
     try {
-      await this.client.query(SQL, [meetingStatus, meetingID]);
+      this.client.query(SQL, [meetingStatus, meetingID]);
+      this.client.query(SQL2, [meetingStatus, slackID]);
     } catch (error) {
       throw new Error(error);
     }
