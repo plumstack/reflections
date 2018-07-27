@@ -1,8 +1,7 @@
 <template>
 <div>
-  <div class="pure-button-group" role="group"
-  v-for='student in students' :key='student.slack_id'>
-    <StudentSelectItem :name='student.employee_name'
+  <div v-for='student in students' :key='student.slack_id'>
+    <StudentSelectItem class='student' :name='student.employee_name'
     :status='student.status' :id='student.slack_id' :cohort='student.cohort_id'/>
   </div>
 </div>
@@ -26,7 +25,6 @@ export default {
       url: `/api/dash/cohorts/${this.$route.params.cohortid}`,
     };
     const students = await axios(options);
-    console.log(students);
     this.students = students.data.students;
   },
 };
@@ -34,5 +32,7 @@ export default {
 </script>
 
 <style scoped>
-
+.student{
+  margin-bottom: 10px;
+}
 </style>
