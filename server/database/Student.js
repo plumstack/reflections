@@ -48,13 +48,14 @@ class Student {
       const formattedMeetings = studentMeetings.rows.reduce((acc, item) => {
         const {
           id, response_text, response_date, meeting_notes, // eslint-disable-line
-          meeting_date, meeting_status, respond_by_date, // eslint-disable-line
+          meeting_date, meeting_status, respond_by_date, reflection_text // eslint-disable-line
         } = item;
         if (id in acc) acc[id].responses.push({ response_text, response_date });
         else {
           acc[id] = {
             id,
             meeting_notes,
+            reflection_text,
             meeting_date,
             meeting_status,
             respond_by_date,
