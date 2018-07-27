@@ -25,7 +25,7 @@
           v-model='tags' />
       </fieldset>
 
-      <button @click='newReflection'
+      <button @click='newReflection' type='submit'
       class='pure-button pure-input-1-2 pure-button-primary'>Submit</button>
     </form>
   </div>

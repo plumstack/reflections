@@ -83,7 +83,7 @@ class Slack {
         console.log(event.user, event.text);
         const { user: slackID, text: responseText } = event;
         DB.Response.insertResponse({ slackID, responseText });
-        this.postMessage('Your reply to this reflection has been saved. Feel free to send another message //TODO', event.user);
+        this.postMessage('Your reply to this reflection has been saved. Feel free to send another message', event.user);
       }
     });
   }
