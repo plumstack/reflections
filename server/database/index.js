@@ -41,17 +41,9 @@ class Database {
 }
 
 const DB = new Database();
-// DB.Response.insertResponse({ slackID: 'UBTN15WFM', responseText: 'response', responseDate: dateHelper.nowToPostgres() });
 
-// UBTN15WFM
 module.exports = DB;
 
 const slack = require('../api/slack');
 
-// DB.Student.getStudentMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
-
 DB.helpers.slack = slack;
-
-// DB.Reflection.newReflection({
-//   slackID: 'UBTSH2Z0D', reflectionText: 'reflection message test', meetingNotes: 'please work', meetingDate: dateHelper.nowToPostgres(), respondBy: dateHelper.nowToPostgres(),
-// });

@@ -37,7 +37,7 @@
 
 <script>
 import axios from 'axios';
-import Meetings from './Meetings';
+import Meetings from './Meetings.vue';
 
 export default {
   name: 'MeetingPage',

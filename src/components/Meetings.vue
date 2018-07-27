@@ -6,7 +6,8 @@
   <h3>Reflections</h3>
   <p>{{meeting.reflection_text}}</p>
   <h3>Responses</h3>
-    <p v-for="response in meeting.responses" :key='response.response_text'>{{response.response_text}}</p>
+    <p v-for="response in meeting.responses"
+    :key='response.response_text'>{{response.response_text}}</p>
     <hr class='between-meetings'>
 </div>
 </template>
@@ -17,7 +18,7 @@ export default {
   name: 'Meetings',
   props: {
     meeting: Object,
-  }
+  },
 };
 
 </script>

@@ -41,7 +41,7 @@ export default {
       } catch (error) {
         if (error.toString().includes('403')) this.$router.push('/403');
         else this.$router.push('/error');
-      };
+      }
     },
   },
   components: { StudentSelectItem },

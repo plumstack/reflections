@@ -32,15 +32,6 @@ class DateConversion {
   nowToPostgres() {
     return this.toPostgres(Date.now);
   }
-
-//  toJavacsript(date) {
-//    console.log(date);
-//    return this.parse(date);
-//  }
-//
-//  nowToJavascript() {
-//    return this.toJavacsript(Date.now);
-//  }
 }
 
 const DC = new DateConversion();
