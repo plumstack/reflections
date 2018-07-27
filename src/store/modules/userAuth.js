@@ -29,9 +29,12 @@ const actions = {
       method: 'GET',
       url: '/api/auth/checkAuth',
     };
-
-    const isLoggedIn = await axios(options);
-    commit('setLoggedIn', isLoggedIn.data.loggedIn);
+    try {
+      const isLoggedIn = await axios(options);
+      commit('setLoggedIn', isLoggedIn.data.loggedIn);
+    } catch (error) {
+      router.push('/login');
+    }
   },
 };
 

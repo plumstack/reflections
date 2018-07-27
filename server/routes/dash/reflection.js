@@ -23,14 +23,14 @@ router.use(async (req, res, next) => {
 router.post('/:slackID', async (req, res) => {
   const { slackID } = req.params;
   const {
-    reflectionText, meetingNotes, respondBy, tag,
+    reflectionText, meetingNotes, respondBy, tags,
   } = req.body;
 
   const reflectionID = await DB.Reflection.newReflection({
     slackID, reflectionText, meetingNotes, respondBy: dateHelper.toPostgres(respondBy),
   });
 
-  DB.Tag.tagReflection({ tag, reflectionID });
+  Promise.all(tags.map((tag) => DB.Tag.tagReflection({ tag, reflectionID })));
   res.send({ success: true });
 });
 

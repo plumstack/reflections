@@ -65,8 +65,13 @@ export default {
       method: 'GET',
       url: '/api/dash/cohorts/',
     };
-    const cohorts = await axios(options);
-    this.cohorts = cohorts.data.cohorts;
+    try {
+      const cohorts = await axios(options);
+      this.cohorts = cohorts.data.cohorts;
+    } catch (error) {
+      if (error.toString().includes('403')) this.$router.push('/403');
+      else this.$router.push('/error');
+    }
   },
 };
 

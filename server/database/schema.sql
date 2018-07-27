@@ -9,6 +9,7 @@ CREATE TABLE rs.students (
   name TEXT NOT NULL,
   slack_id TEXT NOT NULL PRIMARY KEY,
   cohort_id INTEGER DEFAULT 0,
+  status TEXT DEFAULT 'no meeting',
   UNIQUE (slack_id),
   FOREIGN KEY (cohort_id) REFERENCES rs.cohorts(id)
 );

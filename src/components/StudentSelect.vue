@@ -24,9 +24,14 @@ export default {
       method: 'GET',
       url: `/api/dash/cohorts/${this.$route.params.cohortid}`,
     };
-    const students = await axios(options);
-    console.log(students.data)
-    this.students = students.data.students;
+
+    try {
+      const students = await axios(options);
+      this.students = students.data.students;
+    } catch (error) {
+      if (error.toString().includes('403')) this.$router.push('/403');
+      else this.$router.push('/error');
+    }
   },
 };
 
