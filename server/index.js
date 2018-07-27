@@ -6,10 +6,12 @@ const bodyParser = require('body-parser');
 const dashCohortsRoute = require('./routes/dash/cohorts');
 const dashStudentRoute = require('./routes/dash/student');
 const dashReflectionRoute = require('./routes/dash/reflection');
+const dashTagsRoute = require('./routes/dash/tags');
 
 require('./api/slack');
 
 dotenv.config({ silent: true });
+const { BASE_URL } = process.env;
 
 const app = express();
 const PORT = process.env.PORT || 8085;
@@ -25,9 +27,10 @@ if (process.env.BUILD === 'PRODUCTION') {
 
 require('./authentication')(app);
 
-app.use('/api/dash/cohorts', dashCohortsRoute);
-app.use('/api/dash/student', dashStudentRoute);
-app.use('/api/dash/reflection/', dashReflectionRoute);
+app.use(`${BASE_URL}api/dash/cohorts`, dashCohortsRoute);
+app.use(`${BASE_URL}api/dash/student`, dashStudentRoute);
+app.use(`${BASE_URL}api/dash/reflection/`, dashReflectionRoute);
+app.use(`${BASE_URL}api/dash/tags/`, dashTagsRoute);
 
 
 app.listen(PORT, () => {

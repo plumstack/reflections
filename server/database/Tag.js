@@ -35,6 +35,34 @@ class Tag {
       throw new Error(error);
     }
   }
+
+  async getAllTags() {
+    const SQL = 'SELECT tag FROM rs.tags;';
+    try {
+      const tags = await this.client.query(SQL);
+      return tags.rows.map((tag) => tag.tag);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getAllTaggedReflections({ tag }) {
+    const tagIDSQL = 'SELECT id FROM rs.tags WHERE tag = $1';
+    const getAllByTagSQL = `
+    SELECT reflection_text FROM rs.reflections
+    WHERE id in (
+      SELECT reflection_id 
+      FROM rs.reflections_tags
+      WHERE tag_id = ($1)
+    );`;
+    try {
+      const tagID = await this.client.query(tagIDSQL, [tag]);
+      const allByTag = await this.client.query(getAllByTagSQL, [tagID.rows[0].id]);
+      return allByTag.rows;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = Tag;
