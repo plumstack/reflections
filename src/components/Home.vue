@@ -17,7 +17,7 @@ import CohortSelect from '@/components/CohortSelect.vue';
 export default {
   name: 'Home',
   components: {
-    CohortSelect
+    CohortSelect,
   },
   computed: mapGetters(['getLoggedIn']),
 };

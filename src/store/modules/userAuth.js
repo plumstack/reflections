@@ -1,4 +1,6 @@
+import axios from 'axios';
 import router from '../../router';
+
 
 const state = {
   loggedIn: false,
@@ -15,7 +17,24 @@ const actions = {
   },
   logout: ({ commit }) => {
     commit('setLoggedIn', false);
+    const options = {
+      method: 'POST',
+      url: '/api/auth/logout',
+    };
+    axios(options);
     router.push('/');
+  },
+  checkAuth: async ({ commit }) => {
+    const options = {
+      method: 'GET',
+      url: '/api/auth/checkAuth',
+    };
+    try {
+      const isLoggedIn = await axios(options);
+      commit('setLoggedIn', isLoggedIn.data.loggedIn);
+    } catch (error) {
+      router.push('/login');
+    }
   },
 };
 

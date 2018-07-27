@@ -1,53 +1,59 @@
-CREATE TABLE rs.employees (
-  id serial PRIMARY KEY,
-  employee_name varchar(50) NOT NULL,
-  slack_id varchar(50) NOT NULL,
-  cohort_id integer,
-  FOREIGN KEY (cohort_id) REFERENCES cohorts(id)
-);
+CREATE SCHEMA rs;
 
 CREATE TABLE rs.cohorts (
-  id integer PRIMARY KEY,
-  status text
+  id INTEGER PRIMARY KEY,
+  cohort_status TEXT 
+);
+
+CREATE TABLE rs.students (
+  name TEXT NOT NULL,
+  slack_id TEXT NOT NULL PRIMARY KEY,
+  cohort_id INTEGER DEFAULT 0,
+  status TEXT DEFAULT 'no meeting',
+  UNIQUE (slack_id),
+  FOREIGN KEY (cohort_id) REFERENCES rs.cohorts(id)
+);
+
+CREATE TABLE rs.reflections (
+  id serial PRIMARY KEY,
+  reflection_text TEXT 
 );
 
 CREATE TABLE rs.meetings (
   id serial PRIMARY KEY,
   meeting_notes TEXT,
-  meeting_date INTEGER,
+  meeting_date TIMESTAMP,
   reflection_id INTEGER,
-  employee_id INTEGER,
-  FOREIGN KEY (reflection_id) REFERENCES reflections(id),
-  FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
-
-CREATE TABLE rs.reflections (
-  id serial PRIMARY KEY,
-  reflection_text text
+  student_id TEXT,
+  respond_by_date TIMESTAMP,
+  meeting_status TEXT DEFAULT 'needs response',
+  FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
+  FOREIGN KEY (student_id) REFERENCES rs.students(slack_id)
 );
 
 CREATE TABLE rs.response (
   id serial PRIMARY KEY,
   response_text TEXT,
-  response_date INTEGER,
+  response_date TIMESTAMP,
   meeting_id INTEGER,
-  FOREIGN KEY (meeting_id) REFERENCES meetings(id)
+  FOREIGN KEY (meeting_id) REFERENCES rs.meetings(id)
 );
 
 CREATE TABLE rs.tags (
   id serial PRIMARY KEY,
-  tag text
+  tag TEXT 
 );
 
 CREATE TABLE rs.reflections_tags (
   tag_id INTEGER,
   reflection_id INTEGER,
-  FOREIGN KEY (tag_id) REFERENCES tags(id),
-  FOREIGN KEY (reflection_id) REFERENCES reflections(id),
+  FOREIGN KEY (tag_id) REFERENCES rs.tags(id),
+  FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
   PRIMARY KEY(tag_id, reflection_id)
 );
-
-DROP TABLE rs.authedusers;
+	
+INSERT INTO rs.cohorts (id, cohort_status) VALUES (0, 'unassigned');
+INSERT INTO rs.cohorts (id, cohort_status) VALUES (1, 'staff');
 
 CREATE TABLE rs.authedUsers(
 	id TEXT primary key,
@@ -56,4 +62,5 @@ CREATE TABLE rs.authedUsers(
 	accessToken TEXT,
 	refreshToken TEXT
 );
-	
+
+INSERT INTO rs.authedUsers (id, name) VALUES ('105689560482819886551', 'Jacob Johnston');
