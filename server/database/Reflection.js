@@ -47,6 +47,10 @@ class Reflection {
         .postMessage(this
           .constructor
           .formatNewReflection({ reflectionText, respondBy }), slackID);
+      this
+        .helpers
+        .slack
+        .setReminder({ user: slackID, time: respondBy });
       return reflectionID;
     } catch (error) {
       throw new Error(error);

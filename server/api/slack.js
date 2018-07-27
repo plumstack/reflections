@@ -27,7 +27,7 @@ class Slack {
     setInterval(() => this.updateInfo, 1800000);
   }
 
-  setReminder(text = 'Respond to Reflections Bot', time, user) {
+  setReminder({ text = 'Respond to Reflections Bot', time, user }) {
     this.web.apiCall('reminders.add', {
       text,
       time,
