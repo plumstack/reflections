@@ -38,7 +38,7 @@ export default {
   async created() {
     const options = {
       method: 'GET',
-      url: `/api/dash/employee/${this.$route.params.studentid}`,
+      url: `/api/dash/student/${this.$route.params.studentid}`,
     };
     const meetings = await axios(options);
     this.meetings = meetings.data.meetings;

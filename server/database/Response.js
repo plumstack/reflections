@@ -6,7 +6,7 @@ class Response {
   }
 
   async getNewestMeeting({ slackID }) {
-    const SQL = 'SELECT id FROM rs.meetings WHERE employee_id = $1 ORDER BY meeting_date DESC LIMIT 1;';
+    const SQL = 'SELECT id FROM rs.meetings WHERE student_id = $1 ORDER BY meeting_date DESC LIMIT 1;';
     try {
       const res = await this.client.query(SQL, [slackID]);
       const { id: newestMeetingID } = res.rows[0];
@@ -30,7 +30,7 @@ class Response {
 
   async updateMeetingStatus({ meetingID, meetingStatus, slackID }) {
     const SQL = 'UPDATE rs.meetings SET meeting_status = $1 WHERE id = $2;';
-    const SQL2 = 'UPDATE rs.employees SET status = $1 WHERE slack_id = $2;';
+    const SQL2 = 'UPDATE rs.students SET status = $1 WHERE slack_id = $2;';
     try {
       this.client.query(SQL, [meetingStatus, meetingID]);
       this.client.query(SQL2, [meetingStatus, slackID]);

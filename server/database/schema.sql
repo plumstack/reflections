@@ -5,8 +5,8 @@ CREATE TABLE rs.cohorts (
   cohort_status TEXT 
 );
 
-CREATE TABLE rs.employees (
-  employee_name TEXT NOT NULL,
+CREATE TABLE rs.students (
+  name TEXT NOT NULL,
   slack_id TEXT NOT NULL PRIMARY KEY,
   cohort_id INTEGER DEFAULT 0,
   UNIQUE (slack_id),
@@ -23,11 +23,11 @@ CREATE TABLE rs.meetings (
   meeting_notes TEXT,
   meeting_date TIMESTAMP,
   reflection_id INTEGER,
-  employee_id TEXT,
+  student_id TEXT,
   respond_by_date TIMESTAMP,
   meeting_status TEXT DEFAULT 'needs response',
   FOREIGN KEY (reflection_id) REFERENCES rs.reflections(id),
-  FOREIGN KEY (employee_id) REFERENCES rs.employees(slack_id)
+  FOREIGN KEY (student_id) REFERENCES rs.students(slack_id)
 );
 
 CREATE TABLE rs.response (

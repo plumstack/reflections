@@ -20,24 +20,24 @@ router.use(async (req, res, next) => {
 });
 
 router.get('/', async (_, res) => {
-  const employees = await DB.Employee.getEmployees();
-  res.send({ success: true, employees });
+  const students = await DB.Student.getStudents();
+  res.send({ success: true, students });
 });
 
 router.get('/unassigned', async (_, res) => {
-  const employees = await DB.Employee.getUnassignedEmployees();
-  res.send({ success: true, employees });
+  const students = await DB.Student.getUnassignedStudents();
+  res.send({ success: true, students });
 });
 
 router.get('/:slackID', async (req, res) => {
   const { slackID } = req.params;
-  const meetings = await DB.Employee.getEmployeeMeetings({ slackID });
+  const meetings = await DB.Student.getStudentMeetings({ slackID });
   res.send({ success: true, meetings: meetings.meetings, info: meetings.info });
 });
 
 router.post('/:slackID/:cohortID', async (req, res) => {
   const { slackID, cohortID } = req.params;
-  await DB.Employee.updateEmployeeCohort({ slackID, cohortID });
+  await DB.Student.updateStudentCohort({ slackID, cohortID });
   res.send({ success: true });
 });
 

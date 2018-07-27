@@ -7,17 +7,17 @@ class SlackDB {
     const users = Object.keys(userList);
     try {
       Promise.all(users
-        .map((item) => this.insertNewEmployee({ slackId: item, employeeName: userList[item] })));
+        .map((item) => this.insertNewStudent({ slackId: item, studentName: userList[item] })));
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async insertNewEmployee({ slackId, employeeName }) {
-    const SQL = 'INSERT INTO rs.employees(employee_name, slack_id) VALUES ($1, $2) ON CONFLICT (slack_id) DO NOTHING;';
+  async insertNewStudent({ slackId, studentName }) {
+    const SQL = 'INSERT INTO rs.students(name, slack_id) VALUES ($1, $2) ON CONFLICT (slack_id) DO NOTHING;';
     try {
-      const newEmployeeInsert = this.client.query(SQL, [employeeName, slackId]);
-      return newEmployeeInsert;
+      const newStudentInsert = this.client.query(SQL, [studentName, slackId]);
+      return newStudentInsert;
     } catch (error) {
       throw new Error(error);
     }

@@ -1,7 +1,7 @@
 <template>
 <div>
   <div v-for='student in students' :key='student.slack_id'>
-    <StudentSelectItem class='student' :name='student.employee_name'
+    <StudentSelectItem class='student' :name='student.name'
     :status='student.status' :id='student.slack_id' :cohort='student.cohort_id'/>
   </div>
 </div>
@@ -25,6 +25,7 @@ export default {
       url: `/api/dash/cohorts/${this.$route.params.cohortid}`,
     };
     const students = await axios(options);
+    console.log(students.data)
     this.students = students.data.students;
   },
 };

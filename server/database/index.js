@@ -6,7 +6,7 @@ const Cohort = require('./Cohort');
 const Reflection = require('./Reflection');
 const Tag = require('./Tag');
 const Response = require('./Response');
-const Employee = require('./Employee');
+const Student = require('./Student');
 
 const dateHelper = require('../helpers/dateConversion');
 
@@ -26,7 +26,7 @@ class Database {
     this.helpers = {};
     this.Response = new Response(this.client);
     this.Reflection = new Reflection(this.client, this.helpers);
-    this.Employee = new Employee(this.client);
+    this.Student = new Student(this.client);
     this.initConnection();
   }
 
@@ -48,7 +48,7 @@ module.exports = DB;
 
 const slack = require('../api/slack');
 
-// DB.Employee.getEmployeeMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
+// DB.Student.getStudentMeetings({ slackID: 'UBTN15WFM' }).then(console.log);
 
 DB.helpers.slack = slack;
 

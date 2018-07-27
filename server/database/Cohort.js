@@ -27,7 +27,7 @@ class Cohort {
   }
 
   async getCohortMembers({ cohortID }) {
-    const SQL = 'SELECT * FROM rs.employees WHERE cohort_id = $1';
+    const SQL = 'SELECT * FROM rs.students WHERE cohort_id = $1';
     try {
       const cohortMembers = await this.client.query(SQL, [cohortID]);
       return cohortMembers.rows;

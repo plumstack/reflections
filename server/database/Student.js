@@ -1,30 +1,30 @@
-class Employee {
+class Student {
   constructor(client) {
     this.client = client;
   }
 
-  async getEmployees() {
-    const SQL = 'SELECT * FROM rs.employees;';
+  async getStudents() {
+    const SQL = 'SELECT * FROM rs.students;';
     try {
-      const currentEmployees = await this.client.query(SQL);
-      return currentEmployees.rows;
+      const currentStudents = await this.client.query(SQL);
+      return currentStudents.rows;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getUnassignedEmployees() {
-    const SQL = 'SELECT * FROM rs.employees WHERE cohort_id = 0;';
+  async getUnassignedStudents() {
+    const SQL = 'SELECT * FROM rs.students WHERE cohort_id = 0;';
     try {
-      const unassignedEmployees = await this.client.query(SQL);
-      return unassignedEmployees.rows;
+      const unassignedStudents = await this.client.query(SQL);
+      return unassignedStudents.rows;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async updateEmployeeCohort({ slackID, cohortID }) {
-    const SQL = 'UPDATE rs.employees SET cohort_id = $1 where slack_id = $2;';
+  async updateStudentCohort({ slackID, cohortID }) {
+    const SQL = 'UPDATE rs.students SET cohort_id = $1 where slack_id = $2;';
     try {
       await this.client.query(SQL, [cohortID, slackID]);
     } catch (error) {
@@ -32,18 +32,20 @@ class Employee {
     }
   }
 
-  async getEmployeeMeetings({ slackID }) {
-    const SQL = `SELECT m.id, m.meeting_notes, m.meeting_date, m.meeting_status, m.respond_by_date, r.reflection_text, re.response_text, re.response_date
+  async getStudentMeetings({ slackID }) {
+    const SQL = `SELECT m.id, m.meeting_notes, m.meeting_date,
+                m.meeting_status, m.respond_by_date, r.reflection_text,
+                re.response_text, re.response_date
                 FROM rs.meetings AS m 
                 LEFT JOIN rs.reflections AS r 
                   ON (m.reflection_id = r.id)
                 LEFT JOIN rs.response AS re
                   ON (re.meeting_id = m.id)
-                WHERE m.employee_id = $1;`;
-    const SQL2 = 'SELECT * FROM rs.employees WHERE slack_id = $1';
+                WHERE m.student_id = $1;`;
+    const studentInfo = 'SELECT * FROM rs.students WHERE slack_id = $1';
     try {
-      const employeeMeetings = await this.client.query(SQL, [slackID]);
-      const formattedMeetings = employeeMeetings.rows.reduce((acc, item) => {
+      const studentMeetings = await this.client.query(SQL, [slackID]);
+      const formattedMeetings = studentMeetings.rows.reduce((acc, item) => {
         const {
           id, response_text, response_date, meeting_notes, // eslint-disable-line
           meeting_date, meeting_status, respond_by_date, // eslint-disable-line
@@ -63,7 +65,7 @@ class Employee {
         return acc;
       }, {});
 
-      const info = await this.client.query(SQL2, [slackID]);
+      const info = await this.client.query(studentInfo, [slackID]);
       return { meetings: Object.values(formattedMeetings), info: info.rows[0] };
     } catch (error) {
       throw new Error(error);
@@ -71,4 +73,4 @@ class Employee {
   }
 }
 
-module.exports = Employee;
+module.exports = Student;

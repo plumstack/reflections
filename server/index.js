@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 // routes
 const dashCohortsRoute = require('./routes/dash/cohorts');
-const dashEmployeeRoute = require('./routes/dash/employee');
+const dashStudentRoute = require('./routes/dash/student');
 const dashReflectionRoute = require('./routes/dash/reflection');
 
 require('./api/slack');
@@ -26,7 +26,7 @@ if (process.env.BUILD === 'PRODUCTION') {
 require('./authentication')(app);
 
 app.use('/api/dash/cohorts', dashCohortsRoute);
-app.use('/api/dash/employee', dashEmployeeRoute);
+app.use('/api/dash/student', dashStudentRoute);
 app.use('/api/dash/reflection/', dashReflectionRoute);
 
 

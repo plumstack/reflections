@@ -6,14 +6,14 @@ class Reflection {
     this.helpers = helpers;
   }
 
-  async getAllReflectionsForEmployee({ employeeID }) {
+  async getAllReflectionsForStudent({ studentID }) {
     const SQL = `SELECT * FROM 
                 rs.meetings AS m LEFT JOIN rs.reflections AS r 
                 ON m.reflection_id = r.id 
-                WHERE m.employee_id = $1;`;
+                WHERE m.student_id = $1;`;
     try {
-      const allReflectionsForEmployee = await this.client.query(SQL, [employeeID]);
-      return allReflectionsForEmployee;
+      const allReflectionsForStudent = await this.client.query(SQL, [studentID]);
+      return allReflectionsForStudent;
     } catch (error) {
       throw new Error(error);
     }
@@ -25,14 +25,14 @@ class Reflection {
     const reflectionsSQL = 'INSERT INTO rs.reflections(reflection_text) VALUES ($1) RETURNING id';
     const newMeetingSQL = `INSERT INTO 
                           rs.meetings(meeting_notes, meeting_date, 
-                          reflection_id, employee_id, respond_by_date) 
+                          reflection_id, student_id, respond_by_date) 
                           VALUES ($1, $2, $3, $4, $5);`;
-    const setEmployeeStatusSQL = 'UPDATE rs.employees SET status = $1 WHERE slack_id = $2;';
+    const setStudentStatusSQL = 'UPDATE rs.students SET status = $1 WHERE slack_id = $2;';
 
     try {
       const insertReflectionID = await this.client.query(reflectionsSQL, [reflectionText]);
       const reflectionID = insertReflectionID.rows[0].id;
-      this.client.query(setEmployeeStatusSQL, ['needs response', slackID]);
+      this.client.query(setStudentStatusSQL, ['needs response', slackID]);
 
       await this
         .client
