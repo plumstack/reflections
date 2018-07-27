@@ -31,8 +31,8 @@ router.get('/unassigned', async (_, res) => {
 
 router.get('/:slackID', async (req, res) => {
   const { slackID } = req.params;
-  const employeeMeetings = await DB.Employee.getEmployeeMeetings({ slackID });
-  res.send({ success: true, employeeMeetings });
+  const meetings = await DB.Employee.getEmployeeMeetings({ slackID });
+  res.send({ success: true, meetings: meetings.meetings, info: meetings.info });
 });
 
 router.post('/:slackID/:cohortID', async (req, res) => {

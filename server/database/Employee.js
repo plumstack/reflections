@@ -40,6 +40,7 @@ class Employee {
                 LEFT JOIN rs.response AS re
                   ON (re.meeting_id = m.id)
                 WHERE m.employee_id = $1;`;
+    const SQL2 = 'SELECT * FROM rs.employees WHERE slack_id = $1';
     try {
       const employeeMeetings = await this.client.query(SQL, [slackID]);
       const formattedMeetings = employeeMeetings.rows.reduce((acc, item) => {
@@ -61,7 +62,9 @@ class Employee {
 
         return acc;
       }, {});
-      return Object.values(formattedMeetings);
+
+      const info = await this.client.query(SQL2, [slackID]);
+      return { meetings: Object.values(formattedMeetings), info: info.rows[0] };
     } catch (error) {
       throw new Error(error);
     }

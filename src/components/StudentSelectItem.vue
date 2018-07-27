@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     studentClicked() {
-      console.log(this.cohort, this.status, this.id, this.name);
+      this.$router.push(`/meeting/${this.id}`);
     },
   },
 };

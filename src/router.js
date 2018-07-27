@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import StudentSelect from '@/components/StudentSelect.vue';
+import MeetingPage from '@/components/MeetingPage.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/cohort/:cohortid',
       name: 'cohort',
       component: StudentSelect,
+    },
+    {
+      path: '/meeting/:studentid',
+      name: 'meeting',
+      component: MeetingPage,
     },
   ],
 });
