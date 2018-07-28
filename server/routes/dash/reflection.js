@@ -1,12 +1,16 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const dateHelper = require('../../helpers/dateConversion');
-
 const DB = require('../../database/index');
 
+dotenv.config({ silent: true });
+
 const router = express.Router();
+const { BUILD } = process.env;
 
 router.use(async (req, res, next) => {
   const { sessionID } = req;
+  if (BUILD !== 'PRODUCTION') return next();
 
   try {
     const sessionCheckResult = await DB.User.verifySession(sessionID);

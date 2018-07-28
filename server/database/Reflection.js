@@ -26,20 +26,21 @@ class Reflection {
     const newMeetingSQL = `INSERT INTO 
                           rs.meetings(meeting_notes, meeting_date, 
                           reflection_id, student_id, respond_by_date) 
-                          VALUES ($1, $2, $3, $4, $5);`;
-    const setStudentStatusSQL = 'UPDATE rs.students SET status = $1 WHERE slack_id = $2;';
+                          VALUES ($1, $2, $3, $4, $5) RETURNING id;`;
+    const setStudentStatusSQL = 'UPDATE rs.students SET status = $1, newest_meeting_id = $3 WHERE slack_id = $2;';
 
     try {
       const insertReflectionID = await this.client.query(reflectionsSQL, [reflectionText]);
       const reflectionID = insertReflectionID.rows[0].id;
-      this.client.query(setStudentStatusSQL, ['needs response', slackID]);
 
-      await this
+      const meetingID = await this
         .client
         .query(
           newMeetingSQL,
           [meetingNotes, meetingDate, reflectionID, slackID, respondBy],
         );
+
+      this.client.query(setStudentStatusSQL, ['needs response', slackID, parseInt(meetingID.rows[0].id, 10)]);
 
       this
         .helpers
