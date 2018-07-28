@@ -1,5 +1,6 @@
 const { WebClient, RTMClient } = require('@slack/client');
 const dotenv = require('dotenv');
+const schedule = require('node-schedule');
 const DB = require('../database/index');
 
 dotenv.config({ silent: true });
@@ -24,9 +25,14 @@ class Slack {
     this.rtm.start();
     this.updateInfo();
     this.eventListener();
-    this.checkOverdue();
-    setInterval(() => this.updateInfo, 1800000);
-    setInterval(() => this.checkOverdue, 60 * 60 * 24 * 1000);
+    // this.checkOverdue();
+
+    schedule.scheduleJob({ minute: 30 }, () => {
+      this.updateInfo();
+    });
+    schedule.scheduleJob({ hour: 9, minute: 5 }, () => {
+      this.checkOverdue();
+    }); // run everyday at midnight
   }
 
   setReminder({ text = 'Respond to Reflections Bot', time, user }) {
