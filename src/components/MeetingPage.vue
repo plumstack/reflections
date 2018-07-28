@@ -13,6 +13,7 @@
       <button @click='updateCohort'>Update Cohort</button>
       <p>0 = unassigned, 1 = staff</p>
     </div>
+          <button @click='showModal=true'>Search Tags</button>
     <form class='pure-form pure-form-aligned meeting-form'>
       <fieldset class='pure-group '>
           <textarea type='text' class='pure-input-3-4' v-model='meetingNotes'
@@ -23,12 +24,13 @@
           placeholder='Respond by (ex: next thursday at noon)' />
           <input type='text' class='pure-input-3-4'
           placeholder='Tags, seperated by commas and no spaces (ex: "sleep,code,eat")'
-          v-model='tags' /><button @click='showModal=true'>Search Tags</button>
+          v-model='tags' />
+          <button @click='newReflection' type='submit'
+          class='pure-button pure-input-1-2 pure-button-primary'>Submit</button>
       </fieldset>
 
-      <button @click='newReflection' type='submit'
-      class='pure-button pure-input-1-2 pure-button-primary'>Submit</button>
     </form>
+    <h2 v-if="submitted">Submitted!</h2>
   </div>
   <div>
     <div v-for='meeting in meetings' :key='meeting.id'><Meetings :meeting='meeting'/></div>
@@ -55,6 +57,7 @@ export default {
       respondBy: '',
       tags: '',
       showModal: false,
+      submitted: false,
     };
   },
   methods: {
@@ -78,6 +81,11 @@ export default {
         },
       };
       axios(options);
+      this.meetingNotes = '';
+      this.reflectionText = '';
+      this.respondBy = '';
+      this.tags = '';
+      this.submitted = true;
     },
   },
   async created() {
