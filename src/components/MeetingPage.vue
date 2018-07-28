@@ -1,5 +1,6 @@
 <template>
 <div class=''>
+  <Modal v-if='showModal' @close='showModal=false' />
   <div v-if='loading'>
     Loading...
   </div>
@@ -22,7 +23,7 @@
           placeholder='Respond by (ex: next thursday at noon)' />
           <input type='text' class='pure-input-3-4'
           placeholder='Tags, seperated by commas and no spaces (ex: "sleep,code,eat")'
-          v-model='tags' />
+          v-model='tags' /><button @click='showModal=true'>Search Tags</button>
       </fieldset>
 
       <button @click='newReflection' type='submit'
@@ -38,10 +39,11 @@
 <script>
 import axios from 'axios';
 import Meetings from './Meetings.vue';
+import Modal from './Modal.vue';
 
 export default {
   name: 'MeetingPage',
-  components: { Meetings },
+  components: { Meetings, Modal },
   data() {
     return {
       info: {},
@@ -52,6 +54,7 @@ export default {
       reflectionText: '',
       respondBy: '',
       tags: '',
+      showModal: false,
     };
   },
   methods: {
