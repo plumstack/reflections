@@ -13,6 +13,22 @@ class Student {
     }
   }
 
+  async getOverdueStudents() {
+    const SQL = `
+              SELECT s.slack_id, m.respond_by_date
+              FROM rs.students AS s
+              LEFT JOIN rs.meetings AS m
+                ON (s.newest_meeting_id = m.id)
+                WHERE now()::DATE >= m.respond_by_date::DATE AND
+                s.status = 'needs response';`;
+    try {
+      const overdueStudents = await this.client.query(SQL);
+      return overdueStudents.rows.map((student) => student.slack_id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async getUnassignedStudents() {
     const SQL = 'SELECT * FROM rs.students WHERE cohort_id = 0;';
     try {

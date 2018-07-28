@@ -19,20 +19,33 @@ class Slack {
 
     this.userList = {};
     this.channelList = {};
-    this.botID = 'UBTSJ81UM';
+    this.botID = process.env.BOTID;
 
     this.rtm.start();
     this.updateInfo();
     this.eventListener();
+    this.checkOverdue();
     setInterval(() => this.updateInfo, 1800000);
+    setInterval(() => this.checkOverdue, 60 * 60 * 24 * 1000);
   }
 
   setReminder({ text = 'Respond to Reflections Bot', time, user }) {
-    this.web.apiCall('reminders.add', {
-      text,
-      time,
-      user,
-      token: this.user_oauth,
+    try {
+      this.web.apiCall('reminders.add', {
+        text,
+        time,
+        user,
+        token: this.user_oauth,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async checkOverdue() {
+    const overdueStudents = await DB.Student.getOverdueStudents();
+    overdueStudents.forEach((student) => {
+      this.postMessage('Your reflection is due. Please respond ASAP.', student);
     });
   }
 
