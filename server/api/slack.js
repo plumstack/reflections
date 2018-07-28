@@ -25,7 +25,7 @@ class Slack {
     this.rtm.start();
     this.updateInfo();
     this.eventListener();
-    // this.checkOverdue();
+    this.checkOverdue();
 
     schedule.scheduleJob({ minute: 30 }, () => {
       this.updateInfo();

@@ -11,17 +11,19 @@ const router = express.Router();
 
 router.use(async (req, res, next) => {
   const { sessionID } = req;
-  if (BUILD !== 'PRODUCTION') return next();
-
-  try {
-    const sessionCheckResult = await DB.User.verifySession(sessionID);
-    if (sessionCheckResult) next();
-    else {
-      res.status(403);
-      res.send('Unauthorized');
+  if (BUILD !== 'PRODUCTION') {
+    next();
+  } else {
+    try {
+      const sessionCheckResult = await DB.User.verifySession(sessionID);
+      if (sessionCheckResult) next();
+      else {
+        res.status(403);
+        res.send('Unauthorized');
+      }
+    } catch (error) {
+      throw new Error(error);
     }
-  } catch (error) {
-    throw new Error(error);
   }
 });
 

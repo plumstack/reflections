@@ -21,9 +21,13 @@ class Student {
                 ON (s.newest_meeting_id = m.id)
                 WHERE now()::DATE >= m.respond_by_date::DATE AND
                 s.status = 'needs response';`;
+
+    const setOverdueSQL = 'UPDATE rs.students SET status = $1 WHERE slack_id = ANY($2::text[]);';
     try {
       const overdueStudents = await this.client.query(SQL);
-      return overdueStudents.rows.map((student) => student.slack_id);
+      const overdueStudentIDs = overdueStudents.rows.map((student) => student.slack_id);
+      this.client.query(setOverdueSQL, ['overdue', overdueStudentIDs]);
+      return overdueStudentIDs;
     } catch (error) {
       throw new Error(error);
     }
