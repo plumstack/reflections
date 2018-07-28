@@ -17,6 +17,3 @@ COPY . .
 
 EXPOSE 8080
 CMD [ "npm", "start"  ]
-
-# docker build -t socialnights .
-# docker run --name socialnights -p 8585:8080 -d socialnights
