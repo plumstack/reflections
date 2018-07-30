@@ -8,8 +8,6 @@ const Tag = require('./Tag');
 const Response = require('./Response');
 const Student = require('./Student');
 
-const dateHelper = require('../helpers/dateConversion');
-
 dotenv.config({ silent: true });
 
 const { PSQL_CONNECTION_STRING: connectionString } = process.env;

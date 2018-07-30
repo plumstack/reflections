@@ -59,8 +59,7 @@ class Reflection {
   }
 
   static formatNewReflection({ reflectionText, respondBy }) {
-    return `You've recieved a new reflection. 
-            Please respond to this reflection by ${respondBy}. \n\n ${reflectionText}`;
+    return `You've recieved a new reflection. Please respond to this reflection by ${respondBy}. \n\n ${reflectionText}`;
   }
 }
 

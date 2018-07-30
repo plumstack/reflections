@@ -99,7 +99,6 @@ class Slack {
     this.rtm.on('ready', () => console.log('Slack RTM connected.'));
     this.rtm.on('message', (event) => {
       if (event.channel[0] === 'D' && event.user !== this.botID) {
-        console.log(event.user, event.text);
         const { user: slackID, text: responseText } = event;
         DB.Response.insertResponse({ slackID, responseText });
         this.postMessage('Your reply to this reflection has been saved. Feel free to send another message', event.user);
