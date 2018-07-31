@@ -11,7 +11,7 @@ const Student = require('./Student');
 dotenv.config({ silent: true });
 
 const { PSQL_CONNECTION_STRING: connectionString } = process.env;
-
+// Class to hold all DB function classes.
 class Database {
   constructor() {
     this.client = new Client({
@@ -43,5 +43,6 @@ const DB = new Database();
 module.exports = DB;
 
 const slack = require('../api/slack');
-
+// Passes down slack helpers to DB classes
+// TODO decouple functionality from DB functions. should only be for retrieval
 DB.helpers.slack = slack;
