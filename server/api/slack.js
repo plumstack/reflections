@@ -74,8 +74,12 @@ class Slack {
   }
 
   async updateInfo() {
-    const newUserList = await this.web.users.list();
-    const newChannelList = await this.web.channels.list();
+    // const newUserList = this.web.users.list();
+    // const newChannelList = this.web.channels.list();
+    const [newUserList, newChannelList] =
+       await Promise.all([this.web.users.list(), this.web.channels.list()]);
+
+    if (!this.botID) console.log(newUserList, '\nPlease add the botID env variable from this list. The bot name is "reflections. Afterwards rebuild the app"');
 
     this.userList = newUserList.members.reduce((acc, item) => {
       if (!item.is_bot && item.name !== 'slackbot') acc[item.id] = item.profile.real_name;
