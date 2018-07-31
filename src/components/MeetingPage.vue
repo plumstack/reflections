@@ -109,5 +109,9 @@ export default {
 </script>
 
 <style scoped>
-
+  .meeting-form{
+      margin-left: 35%;
+      margin-right: auto;
+      max-width: 768px;
+  }
 </style>
