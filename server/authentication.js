@@ -19,6 +19,10 @@ module.exports = (app) => {
   passport.serializeUser((user, done) => done(null, user));
   passport.deserializeUser((user, done) => done(null, user));
 
+  if (!clientID || !clientSecret || !callbackURL) {
+    console.log('\x1b[33m%s\x1b[0m', '\nPlease add the Google env variables. This is one of GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, or GOOGLE_CALLBACK_URL.');
+    process.exit(1);
+  }
 
   passport.use(new GoogleStrategy(
     {

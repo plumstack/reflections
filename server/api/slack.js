@@ -11,6 +11,10 @@ class Slack {
   constructor(botOauth, userOauth) {
     this.bot_oauth = botOauth;
     this.user_oauth = userOauth;
+    if (!this.bot_oauth || !this.user_oauth) {
+      console.log('\x1b[33m%s\x1b[0m', '\nPlease add the slack env variables. This is either BOT_OAUTH or USER_OAUTH.');
+      process.exit(1);
+    }
     try {
       this.web = new WebClient(this.bot_oauth);
       this.rtm = new RTMClient(this.bot_oauth);
@@ -79,7 +83,11 @@ class Slack {
     const [newUserList, newChannelList] =
        await Promise.all([this.web.users.list(), this.web.channels.list()]);
 
-    if (!this.botID) console.log(newUserList, '\nPlease add the botID env variable from this list. The bot name is "reflections. Afterwards rebuild the app"');
+    if (!this.botID) {
+      console.log(newUserList);
+      console.log('\x1b[33m%s\x1b[0m', '\nPlease add the botID env variable from this list. The bot name is "reflections". Afterwards rebuild the app');
+      process.exit(1);
+    }
 
     this.userList = newUserList.members.reduce((acc, item) => {
       if (!item.is_bot && item.name !== 'slackbot') acc[item.id] = item.profile.real_name;
